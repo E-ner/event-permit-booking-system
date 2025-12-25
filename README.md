@@ -128,7 +128,7 @@ src/
 ### Installation
 
 ```bash
-git clone https://github.com/yourusername/event-permit-system.git
+git clone https://github.com/E-ner/event-permit-booking-system.git
 cd event-permit-system/backend
 npm install
 ```

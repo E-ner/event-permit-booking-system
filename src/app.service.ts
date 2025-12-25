@@ -39,7 +39,7 @@ export class AppService {
       },
       support: {
         contact: 'nsengiyumva603@example.com',
-        repository: 'https://your-repo-or-docs-link.com',
+        repository: 'https://github.com/E-ner/event-permit-booking-system.git',
       },
     };
   }
