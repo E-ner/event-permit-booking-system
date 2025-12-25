@@ -6,7 +6,7 @@
 
 <p align="center">
   </a>
-  <a href="http://localhost:3000/api">
+  <a href="http://localhost:4000/api">
     <img src="https://img.shields.io/badge/Swagger-API%20Docs-blue" alt="Swagger Docs" />
   </a>
   <img src="https://img.shields.io/badge/PostgreSQL-13+-blue" alt="PostgreSQL" />
@@ -150,13 +150,13 @@ npm run start:dev
 npm run start:prod
 ```
 
-Server runs at: `http://localhost:3000`
+Server runs at: `http://localhost:4000`
 
 ---
 
 ## API Documentation
 
-Interactive Swagger UI: [http://localhost:3000/api](http://localhost:3000/api)
+Interactive Swagger UI: [http://localhost:4000/api](http://localhost:4000/api)
 
 Features:
 
