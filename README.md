@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="https://nestjs.com/img/logo-small.svg" width="120" alt="NestJS Logo" />
-</p>
-
 <h1 align="center">Event Permit and Venue Booking System</h1>
 
 <p align="center">
@@ -9,9 +5,6 @@
 </p>
 
 <p align="center">
-  </a>
-  <a href="https://github.com/yourusername/event-permit-system/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/yourusername/event-permit-system" alt="License" />
   </a>
   <a href="http://localhost:3000/api">
     <img src="https://img.shields.io/badge/Swagger-API%20Docs-blue" alt="Swagger Docs" />
