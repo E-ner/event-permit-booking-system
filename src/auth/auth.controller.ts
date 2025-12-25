@@ -39,6 +39,8 @@ export class AuthController {
     schema: {
       example: {
         access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.xxxxx',
+        email: "john@email.com",
+        role: "AUTHORITY"
       },
     },
   })
