@@ -16,7 +16,10 @@ export class Permit {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Booking, (booking) => booking.permits, { nullable: true })
+  @ManyToOne(() => Booking, (booking) => booking.permits, {
+    nullable: true,
+    cascade: true,
+  })
   booking: Booking;
 
   @ManyToOne(() => User, (user) => user.appliedPermits)
