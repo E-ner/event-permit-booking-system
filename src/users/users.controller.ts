@@ -84,7 +84,6 @@ export class UsersController {
   })
   @UseGuards(AuthGuard('jwt'))
   getProfile(@Request() req) {
-
     return req.user;
   }
 
@@ -128,11 +127,5 @@ export class UsersController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(id);
-  }
-
-  @Get('me')
-  @UseGuards(AuthGuard('jwt'))
-  getProfile(@Request() req) {
-    return req.user; // From JWT payload
   }
 }

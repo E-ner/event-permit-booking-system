@@ -25,6 +25,7 @@ import {
   ApiConflictResponse,
   ApiForbiddenResponse,
   ApiResponse,
+  ApiNotFoundResponse,
 } from '@nestjs/swagger';
 
 @ApiTags('Bookings')
@@ -114,6 +115,6 @@ Only PENDING bookings can be updated.
   })
   @ApiNotFoundResponse({ description: 'Booking not found' })
   async deleteAbook(@Param('id') id: string, @Request() req) {
-    return await this.bookingService.deleteAbooking(id, req.user);
+    return await this.bookingsService.deleteAbooking(id, req.user);
   }
 }

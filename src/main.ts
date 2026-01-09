@@ -10,11 +10,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
 
-<<<<<<< HEAD
   app.enableCors()
 
-=======
->>>>>>> 1c9be7f9003e9427c54c3667b4c2a3174236a15c
   // Swagger configuration
   const config = new DocumentBuilder()
     .setTitle('Event Permit and Venue Booking System')
