@@ -76,15 +76,14 @@ export class UsersController {
   findAll() {
     return this.usersService.findAll();
   }
-  
+
   @Get('me')
-      @ApiOperation({
+  @ApiOperation({
     summary: 'Getting user profile',
     description: 'Full user list with roles. AUTHORITY only.',
   })
   @UseGuards(AuthGuard('jwt'))
   getProfile(@Request() req) {
-
     return req.user;
   }
 
@@ -129,15 +128,4 @@ export class UsersController {
   remove(@Param('id') id: string) {
     return this.usersService.remove(id);
   }
-
-<<<<<<< HEAD
-  @Get('me')
-  @UseGuards(AuthGuard('jwt'))
-  getProfile(@Request() req) {
-    return req.user; // From JWT payload
-  }
 }
-=======
-
-}
->>>>>>> main/codejocker
