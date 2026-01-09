@@ -102,4 +102,26 @@ export class PermitsService {
 
     return this.permitRepository.save(permit);
   }
+
+  async remove(id: string, user: any) {
+    // findOne already checks if the user is the applicant or an authority
+    const permit = await this.findOne(id, user);
+
+    // Optional: Add business logic - e.g., can't delete if already Approved/Rejected
+    if (
+      user.role !== UserRole.AUTHORITY &&
+      permit.status !== RequestStatus.PENDING
+    ) {
+      throw new ConflictException(
+        'Organizers can only delete pending permit applications',
+      );
+    }
+
+    await this.permitRepository.remove(permit);
+
+    return {
+      message: 'Permit application deleted successfully',
+      id,
+    };
+  }
 }

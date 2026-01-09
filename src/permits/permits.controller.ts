@@ -8,6 +8,7 @@ import {
   Body,
   UseGuards,
   Request,
+  Delete,
 } from '@nestjs/common';
 import { PermitsService } from './permits.service';
 import { CreatePermitDto } from './dto/create-permit.dto';
@@ -24,6 +25,7 @@ import {
   ApiConflictResponse,
   ApiForbiddenResponse,
   ApiResponse,
+  ApiNotFoundResponse,
 } from '@nestjs/swagger';
 
 @ApiTags('Permits')
@@ -101,5 +103,19 @@ Supports Rwanda regulatory requirements (noise, safety, public health).
     @Request() req,
   ) {
     return this.permitsService.updateStatus(id, dto, req.user);
+  }
+
+  @Delete(':id')
+  @Roles(UserRole.AUTHORITY, UserRole.ORGANIZER)
+  @ApiOperation({
+    summary: 'Delete a permit application',
+    description:
+      'Allows an Authority or the original Organizer to delete a permit.',
+  })
+  @ApiResponse({ status: 200, description: 'Permit deleted successfully' })
+  @ApiNotFoundResponse({ description: 'Permit not found' })
+  @ApiForbiddenResponse({ description: 'Unauthorized to delete this permit' })
+  async remove(@Param('id') id: string, @Request() req) {
+    return await this.permitsService.remove(id, req.user);
   }
 }
