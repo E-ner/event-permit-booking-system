@@ -1,8 +1,15 @@
-import { Booking } from "src/bookings/entities/booking.entity";
-import { PermitType } from "src/common/enums/permit-type.enum";
-import { RequestStatus } from "src/common/enums/request-status.enum";
-import { User } from "src/users/entities/user.entity";
-import { Entity, PrimaryGeneratedColumn, ManyToOne, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Booking } from 'src/bookings/entities/booking.entity';
+import { PermitType } from 'src/common/enums/permit-type.enum';
+import { RequestStatus } from 'src/common/enums/request-status.enum';
+import { User } from 'src/users/entities/user.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('permits')
 export class Permit {
@@ -10,7 +17,7 @@ export class Permit {
   id: string;
 
   @ManyToOne(() => Booking, (booking) => booking.permits, { nullable: true })
-  booking: Booking; 
+  booking: Booking;
 
   @ManyToOne(() => User, (user) => user.appliedPermits)
   applicant: User;
@@ -19,10 +26,10 @@ export class Permit {
   status: RequestStatus;
 
   @Column({ type: 'enum', enum: PermitType, nullable: true })
-  type: PermitType; 
+  type: PermitType;
 
   @Column({ nullable: false })
-  details: string; 
+  details: string;
 
   @Column({ nullable: true })
   authorityNotes: string;

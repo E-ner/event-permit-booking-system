@@ -19,25 +19,53 @@ import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 import { UserRole } from '../users/entities/user.entity';
-import { ApiTags, ApiBearerAuth, ApiOperation, ApiQuery, ApiResponse, ApiCreatedResponse, ApiForbiddenResponse } from '@nestjs/swagger';
-
+import {
+  ApiTags,
+  ApiBearerAuth,
+  ApiOperation,
+  ApiQuery,
+  ApiResponse,
+  ApiCreatedResponse,
+  ApiForbiddenResponse,
+} from '@nestjs/swagger';
 
 @ApiTags('Venues')
 @ApiBearerAuth('JWT-auth')
 @Controller('venues')
 export class VenuesController {
-  constructor(private readonly venuesService: VenuesService) { }
+  constructor(private readonly venuesService: VenuesService) {}
 
   // Public search — anyone can discover venues
   @Get('search')
   @ApiOperation({
     summary: 'Public venue search with geolocation',
-    description: 'Search venues by keyword and/or proximity. Uses Haversine formula for accurate distance calculation. Results sorted by distance when geolocation is used.',
+    description:
+      'Search venues by keyword and/or proximity. Uses Haversine formula for accurate distance calculation. Results sorted by distance when geolocation is used.',
   })
-  @ApiQuery({ name: 'keyword', required: false, type: String, description: 'Search in name or address' })
-  @ApiQuery({ name: 'lat', required: false, type: Number, description: 'Latitude for proximity search' })
-  @ApiQuery({ name: 'long', required: false, type: Number, description: 'Longitude' })
-  @ApiQuery({ name: 'radiusKm', required: false, type: Number, description: 'Search radius in kilometers (default 10)' })
+  @ApiQuery({
+    name: 'keyword',
+    required: false,
+    type: String,
+    description: 'Search in name or address',
+  })
+  @ApiQuery({
+    name: 'lat',
+    required: false,
+    type: Number,
+    description: 'Latitude for proximity search',
+  })
+  @ApiQuery({
+    name: 'long',
+    required: false,
+    type: Number,
+    description: 'Longitude',
+  })
+  @ApiQuery({
+    name: 'radiusKm',
+    required: false,
+    type: Number,
+    description: 'Search radius in kilometers (default 10)',
+  })
   @ApiResponse({ status: 200, description: 'List of matching venues' })
   search(@Query() searchDto: SearchVenuesDto) {
     return this.venuesService.search(searchDto);
@@ -50,7 +78,8 @@ export class VenuesController {
   @Roles(UserRole.VENUE_MANAGER)
   @ApiOperation({
     summary: 'Create a new venue',
-    description: 'Only VENUE_MANAGER can create venues. Ownership is automatically assigned.',
+    description:
+      'Only VENUE_MANAGER can create venues. Ownership is automatically assigned.',
   })
   @ApiCreatedResponse({ description: 'Venue created successfully' })
   @ApiForbiddenResponse({ description: 'Only VENUE_MANAGER can create venues' })
@@ -86,7 +115,11 @@ export class VenuesController {
   @Roles(UserRole.VENUE_MANAGER)
   @ApiOperation({ summary: 'Update own venue' })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateVenueDto: UpdateVenueDto, @Request() req) {
+  update(
+    @Param('id') id: string,
+    @Body() updateVenueDto: UpdateVenueDto,
+    @Request() req,
+  ) {
     return this.venuesService.update(id, updateVenueDto, req.user);
   }
 

@@ -6,11 +6,9 @@ import { User, UserRole } from './users/entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
-
 
   // Swagger configuration
   const config = new DocumentBuilder()
@@ -26,7 +24,7 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-SwaggerModule.setup('api', app, document, {
+  SwaggerModule.setup('api', app, document, {
     customCss: `
       .swagger-ui .topbar { background-color: #2c3e50; }
       .swagger-ui .info { margin: 50px 0; }
@@ -46,14 +44,12 @@ SwaggerModule.setup('api', app, document, {
     },
   });
 
-
   const dataSource = app.get(DataSource);
 
   await seedAdmin(dataSource);
   await app.listen(process.env.PORT ?? 4000);
 }
 bootstrap();
-
 
 async function seedAdmin(dataSource: DataSource) {
   const userRepository = dataSource.getRepository(User);

@@ -35,10 +35,14 @@ export class PermitsService {
 
     if (!booking) throw new NotFoundException('Booking not found');
     if (booking.organizer.id !== user.userId) {
-      throw new ForbiddenException('You can only apply for permits on your own bookings');
+      throw new ForbiddenException(
+        'You can only apply for permits on your own bookings',
+      );
     }
     if (booking.status !== RequestStatus.APPROVED) {
-      throw new ConflictException('Permits can only be applied for approved bookings');
+      throw new ConflictException(
+        'Permits can only be applied for approved bookings',
+      );
     }
 
     const permit = this.permitRepository.create({

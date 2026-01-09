@@ -3,7 +3,6 @@ import { IsEnum, IsOptional, IsString } from 'class-validator';
 import { RequestStatus } from 'src/common/enums/request-status.enum';
 
 export class UpdatePermitStatusDto {
-
   @ApiProperty({
     enum: RequestStatus,
     example: RequestStatus.APPROVED,

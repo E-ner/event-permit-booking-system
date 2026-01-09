@@ -1,5 +1,10 @@
 // src/users/users.service.ts
-import { Injectable, ConflictException, NotFoundException, ForbiddenException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  NotFoundException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -15,10 +20,15 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) {}
 
-  async create(createUserDto: CreateUserDto, isAdminRequest = false): Promise<User> {
+  async create(
+    createUserDto: CreateUserDto,
+    isAdminRequest = false,
+  ): Promise<User> {
     const restrictedRoles = [UserRole.AUTHORITY, UserRole.VENUE_MANAGER];
     if (restrictedRoles.includes(createUserDto.role) && !isAdminRequest) {
-      throw new ForbiddenException('Cannot self-register for this role. Contact admin.');
+      throw new ForbiddenException(
+        'Cannot self-register for this role. Contact admin.',
+      );
     }
 
     const { password, ...rest } = createUserDto;
@@ -32,7 +42,8 @@ export class UsersService {
     try {
       return await this.usersRepository.save(user);
     } catch (error) {
-      if (error.code === '23505') { // PostgreSQL unique violation
+      if (error.code === '23505') {
+        // PostgreSQL unique violation
         throw new ConflictException('Username or email already exists');
       }
       throw error;

@@ -16,7 +16,15 @@ import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 import { UserRole } from '../users/entities/user.entity';
-import { ApiTags, ApiBearerAuth, ApiOperation, ApiCreatedResponse, ApiConflictResponse, ApiForbiddenResponse, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiBearerAuth,
+  ApiOperation,
+  ApiCreatedResponse,
+  ApiConflictResponse,
+  ApiForbiddenResponse,
+  ApiResponse,
+} from '@nestjs/swagger';
 
 @ApiTags('Permits')
 @ApiBearerAuth('JWT-auth')
@@ -40,9 +48,10 @@ Required for compliance with RDB and local regulations.
     `,
   })
   @ApiCreatedResponse({ description: 'Permit application submitted (PENDING)' })
-  @ApiConflictResponse({ description: 'Booking must be APPROVED before applying for permits' })
+  @ApiConflictResponse({
+    description: 'Booking must be APPROVED before applying for permits',
+  })
   @ApiForbiddenResponse({ description: 'Only booking organizer can apply' })
-
   create(@Body() createDto: CreatePermitDto, @Request() req) {
     return this.permitsService.create(createDto, req.user);
   }
@@ -70,7 +79,6 @@ Required for compliance with RDB and local regulations.
 
   @Patch(':id/status')
   @Roles(UserRole.AUTHORITY)
-
   @ApiOperation({
     summary: 'Approve or reject permit',
     description: `
@@ -81,10 +89,12 @@ Final compliance decision. Can include official notes.
 Supports Rwanda regulatory requirements (noise, safety, public health).
     `,
   })
-  @ApiResponse({ status: 200, description: 'Permit status updated with optional notes' })
+  @ApiResponse({
+    status: 200,
+    description: 'Permit status updated with optional notes',
+  })
   @ApiConflictResponse({ description: 'Only pending permits can be updated' })
   @ApiForbiddenResponse({ description: 'Only AUTHORITY can approve permits' })
-  
   updateStatus(
     @Param('id') id: string,
     @Body() dto: UpdatePermitStatusDto,

@@ -8,6 +8,7 @@ import {
   Body,
   UseGuards,
   Request,
+  Delete,
 } from '@nestjs/common';
 import { BookingsService } from './bookings.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
@@ -16,8 +17,15 @@ import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 import { UserRole } from '../users/entities/user.entity';
-import { ApiTags, ApiBearerAuth, ApiOperation, ApiCreatedResponse, ApiConflictResponse, ApiForbiddenResponse, ApiResponse } from '@nestjs/swagger';
-
+import {
+  ApiTags,
+  ApiBearerAuth,
+  ApiOperation,
+  ApiCreatedResponse,
+  ApiConflictResponse,
+  ApiForbiddenResponse,
+  ApiResponse,
+} from '@nestjs/swagger';
 
 @ApiTags('Bookings')
 @ApiBearerAuth('JWT-auth')
@@ -82,12 +90,30 @@ Only PENDING bookings can be updated.
   })
   @ApiResponse({ status: 200, description: 'Booking status updated' })
   @ApiConflictResponse({ description: 'Only pending bookings can be updated' })
-  @ApiForbiddenResponse({ description: 'Not authorized to approve this booking' })
+  @ApiForbiddenResponse({
+    description: 'Not authorized to approve this booking',
+  })
   updateStatus(
     @Param('id') id: string,
     @Body() updateDto: UpdateBookingStatusDto,
     @Request() req,
   ) {
     return this.bookingsService.updateStatus(id, updateDto, req.user);
+  }
+
+  @Delete(':id')
+  @Roles(UserRole.AUTHORITY, UserRole.ORGANIZER)
+  @ApiOperation({
+    summary: 'Delete a booking',
+    description:
+      'Only AUTHORITY or the ORGANIZER who created the booking can delete it.',
+  })
+  @ApiResponse({ status: 200, description: 'Booking deleted successfully' })
+  @ApiForbiddenResponse({
+    description: 'Not authorized to delete this booking',
+  })
+  @ApiNotFoundResponse({ description: 'Booking not found' })
+  async deleteAbook(@Param('id') id: string, @Request() req) {
+    return await this.bookingService.deleteAbooking(id, req.user);
   }
 }

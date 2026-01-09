@@ -2,7 +2,13 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateUserDto } from './create-user.dto';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsOptional, IsString, IsEmail, IsEnum, MinLength } from 'class-validator';
+import {
+  IsOptional,
+  IsString,
+  IsEmail,
+  IsEnum,
+  MinLength,
+} from 'class-validator';
 import { UserRole } from '../entities/user.entity';
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
@@ -23,7 +29,8 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   email?: string;
 
   @ApiPropertyOptional({
-    description: 'New password (minimum 6 characters). Only provide if changing password.',
+    description:
+      'New password (minimum 6 characters). Only provide if changing password.',
     example: 'newSecurePass123',
     minLength: 6,
   })

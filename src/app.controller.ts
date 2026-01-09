@@ -16,7 +16,8 @@ export class AppController {
   @Get()
   @ApiOperation({
     summary: 'System status and information',
-    description: 'Welcome endpoint providing system overview, status, and quick links.',
+    description:
+      'Welcome endpoint providing system overview, status, and quick links.',
   })
   @ApiResponse({
     status: 200,

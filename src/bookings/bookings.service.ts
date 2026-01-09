@@ -43,12 +43,18 @@ export class BookingsService {
       where: [
         {
           venue: { id: venue.id },
-          startDate: Between(new Date(createDto.startDate), new Date(createDto.endDate)),
+          startDate: Between(
+            new Date(createDto.startDate),
+            new Date(createDto.endDate),
+          ),
           status: RequestStatus.APPROVED,
         },
         {
           venue: { id: venue.id },
-          endDate: Between(new Date(createDto.startDate), new Date(createDto.endDate)),
+          endDate: Between(
+            new Date(createDto.startDate),
+            new Date(createDto.endDate),
+          ),
           status: RequestStatus.APPROVED,
         },
         {
@@ -118,7 +124,9 @@ export class BookingsService {
     const isAuthority = user.role === UserRole.AUTHORITY;
 
     if (!isOrganizer && !isVenueManager && !isAuthority) {
-      throw new ForbiddenException('You do not have permission to view this booking');
+      throw new ForbiddenException(
+        'You do not have permission to view this booking',
+      );
     }
 
     return booking;
@@ -136,10 +144,37 @@ export class BookingsService {
     const isAuthority = user.role === UserRole.AUTHORITY;
 
     if (!isVenueManager && !isAuthority) {
-      throw new ForbiddenException('Only the venue manager can approve/reject bookings');
+      throw new ForbiddenException(
+        'Only the venue manager can approve/reject bookings',
+      );
     }
 
     booking.status = dto.status;
     return this.bookingRepository.save(booking);
+  }
+  async deleteAbooking(id: string, user: any) {
+    // 1. Find the booking (ensure your findOne handles relations like 'organizer')
+    const booking = await this.bookingRepository.findOne({
+      where: { id },
+      relations: ['organizer'],
+    });
+
+    if (!booking) {
+      throw new NotFoundException(`Booking with ID ${id} not found`);
+    }
+
+    // 2. Security Check: Is the user an Authority OR the Organizer who owns it?
+    const isAuthority = user?.role === UserRole.AUTHORITY;
+    const isOwner = booking.organizer.id === user?.userId;
+
+    if (!isAuthority && !isOwner) {
+      throw new ForbiddenException(
+        'You do not have permission to delete this booking',
+      );
+    }
+
+    await this.bookingRepository.remove(booking);
+
+    return { message: 'Booking deleted successfully' };
   }
 }
