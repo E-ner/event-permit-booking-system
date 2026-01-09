@@ -25,7 +25,7 @@ export class Venue {
   @Column({ nullable: true })
   capacity: number;
 
-  @ManyToOne(() => User, (user) => user.managedVenues)
+  @ManyToOne(() => User, (user) => user.managedVenues) 
   manager: User;
 
   @CreateDateColumn()
@@ -34,6 +34,6 @@ export class Venue {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Booking, (booking) => booking.venue)
+  @OneToMany(() => Booking, (booking) => booking.venue, { cascade: true })
   bookings: Booking[];
 }

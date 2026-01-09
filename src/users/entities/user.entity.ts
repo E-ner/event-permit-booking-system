@@ -32,12 +32,12 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Venue, (venue) => venue.manager)
+  @OneToMany(() => Venue, (venue) => venue.manager, { cascade: true })
   managedVenues: Venue[];
 
-  @OneToMany(() => Booking, (booking) => booking.organizer)
+  @OneToMany(() => Booking, (booking) => booking.organizer, { cascade: true })
   organizedBookings: Booking[];
 
-  @OneToMany(() => Permit, (permit) => permit.applicant)
+  @OneToMany(() => Permit, (permit) => permit.applicant, { cascade: true })
   appliedPermits: Permit[];
 }

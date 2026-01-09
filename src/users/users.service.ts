@@ -68,4 +68,8 @@ export class UsersService {
     const user = await this.findOne(id);
     await this.usersRepository.remove(user);
   }
+
+  async getProfile(user: any): Promise<any> {
+    console.log(user)
+  }
 }
