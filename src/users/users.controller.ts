@@ -76,9 +76,9 @@ export class UsersController {
   findAll() {
     return this.usersService.findAll();
   }
-  
+
   @Get('me')
-      @ApiOperation({
+  @ApiOperation({
     summary: 'Getting user profile',
     description: 'Full user list with roles. AUTHORITY only.',
   })

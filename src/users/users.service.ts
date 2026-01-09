@@ -1,17 +1,16 @@
 // src/users/users.service.ts
 import {
-  Injectable,
   ConflictException,
-  NotFoundException,
   ForbiddenException,
+  Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { User } from './entities/user.entity';
+import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UserRole } from './entities/user.entity'; // Assuming enum is in entity
+import { User, UserRole } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
