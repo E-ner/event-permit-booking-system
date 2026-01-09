@@ -50,6 +50,6 @@ export class Booking {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Permit, (permit) => permit.booking)
+  @OneToMany(() => Permit, (permit) => permit.booking, { onDelete: 'CASCADE' })
   permits: Permit[];
 }
