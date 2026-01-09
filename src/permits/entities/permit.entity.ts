@@ -18,7 +18,7 @@ export class Permit {
 
   @ManyToOne(() => Booking, (booking) => booking.permits, {
     nullable: true,
-    cascade: true,
+    onDelete: 'CASCADE',
   })
   booking: Booking;
 
