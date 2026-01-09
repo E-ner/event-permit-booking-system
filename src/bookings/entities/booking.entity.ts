@@ -50,6 +50,6 @@ export class Booking {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Permit, (permit) => permit.booking, { cascade: true })
+  @OneToMany(() => Permit, (permit) => permit.booking)
   permits: Permit[];
 }
