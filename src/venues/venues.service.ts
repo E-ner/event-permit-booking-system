@@ -97,10 +97,14 @@ export class VenuesService {
     if (user.role === UserRole.AUTHORITY) {
       return this.venueRepository.find({ relations: ['manager'] });
     }
-    return this.venueRepository.find({
-      where: { manager: { id: user.userId } },
-      relations: ['manager'],
-    });
+
+    if (user.role == UserRole.VENUE_MANAGER) {    
+      return this.venueRepository.find({
+        where: { manager: { id: user.userId } },
+        relations: ['manager'],
+      });
+    }
+    else { return this.venueRepository.find() }
   }
 
   async findOne(id: string, user?: any) {

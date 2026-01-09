@@ -76,6 +76,17 @@ export class UsersController {
   findAll() {
     return this.usersService.findAll();
   }
+  
+  @Get('me')
+      @ApiOperation({
+    summary: 'Getting user profile',
+    description: 'Full user list with roles. AUTHORITY only.',
+  })
+  @UseGuards(AuthGuard('jwt'))
+  getProfile(@Request() req) {
+
+    return req.user;
+  }
 
   // Only AUTHORITY can view a specific user
   @UseGuards(AuthGuard('jwt'), RolesGuard)
@@ -119,9 +130,14 @@ export class UsersController {
     return this.usersService.remove(id);
   }
 
+<<<<<<< HEAD
   @Get('me')
   @UseGuards(AuthGuard('jwt'))
   getProfile(@Request() req) {
     return req.user; // From JWT payload
   }
 }
+=======
+
+}
+>>>>>>> main/codejocker
