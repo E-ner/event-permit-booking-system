@@ -9,7 +9,6 @@ import { BookingsModule } from './bookings/bookings.module';
 import { PermitsModule } from './permits/permits.module';
 import { VenuesModule } from './venues/venues.module';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }), // Loads .env globally
@@ -29,7 +28,9 @@ import { VenuesModule } from './venues/venues.module';
     }),
     UsersModule,
     AuthModule,
-    VenuesModule, BookingsModule, PermitsModule 
+    VenuesModule,
+    BookingsModule,
+    PermitsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

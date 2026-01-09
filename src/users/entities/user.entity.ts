@@ -1,7 +1,15 @@
 import { Booking } from 'src/bookings/entities/booking.entity';
 import { Permit } from 'src/permits/entities/permit.entity';
 import { Venue } from 'src/venues/entities/venue.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 export enum UserRole {
   ORGANIZER = 'ORGANIZER',

@@ -17,7 +17,8 @@ export class AppService {
       timestamp: new Date().toISOString(),
       documentation: {
         swagger: '/api',
-        description: 'Interactive API documentation with authentication support',
+        description:
+          'Interactive API documentation with authentication support',
       },
       quickLinks: {
         login: '/auth/login',

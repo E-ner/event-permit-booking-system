@@ -1,9 +1,14 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsUUID, IsDateString, IsString, IsNotEmpty, IsOptional, IsInt } from 'class-validator';
+import {
+  IsUUID,
+  IsDateString,
+  IsString,
+  IsNotEmpty,
+  IsOptional,
+  IsInt,
+} from 'class-validator';
 
 export class CreateBookingDto {
-
-
   @ApiProperty({
     description: 'Venue to book',
     example: 'a1b2c3d4-e5f6-7890-g1h2-i3j4k5l6m7n8',
@@ -12,14 +17,12 @@ export class CreateBookingDto {
   @IsNotEmpty()
   venueId: string;
 
-
   @ApiProperty({
     description: 'Event start (UTC ISO format)',
     example: '2026-02-15T09:00:00Z',
   })
   @IsDateString()
   startDate: string;
-
 
   @ApiProperty({
     description: 'Event end (UTC ISO format)',
@@ -35,7 +38,6 @@ export class CreateBookingDto {
   @IsString()
   @IsNotEmpty()
   eventName: string; // <--- ADD THIS
-
 
   @ApiProperty({
     description: 'Event purpose/description',

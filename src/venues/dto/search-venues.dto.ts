@@ -3,7 +3,6 @@ import { Type } from 'class-transformer';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class SearchVenuesDto {
-
   @ApiPropertyOptional({
     description: 'Search keyword in venue name or address',
     example: 'Kigali Convention',
@@ -11,7 +10,6 @@ export class SearchVenuesDto {
   @IsOptional()
   @IsString()
   keyword?: string;
-
 
   @ApiPropertyOptional({
     description: 'Latitude for proximity search',
@@ -25,7 +23,6 @@ export class SearchVenuesDto {
   @Max(90)
   lat?: number;
 
-
   @ApiPropertyOptional({
     description: 'Longitude for proximity search',
     type: Number,
@@ -37,7 +34,6 @@ export class SearchVenuesDto {
   @Min(-180)
   @Max(180)
   long?: number;
-
 
   @ApiPropertyOptional({
     description: 'Search radius in kilometers',

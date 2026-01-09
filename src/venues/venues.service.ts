@@ -1,5 +1,9 @@
 // src/venues/venues.service.ts
-import { Injectable, ForbiddenException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  ForbiddenException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, ILike } from 'typeorm';
 import { Venue } from './entities/venue.entity';
@@ -13,7 +17,7 @@ export class VenuesService {
   constructor(
     @InjectRepository(Venue)
     private venueRepository: Repository<Venue>,
-  ) { }
+  ) {}
 
   // Create venue — only VENUE_MANAGER, auto-assign ownership
   async create(createVenueDto: CreateVenueDto, user: any) {
@@ -35,9 +39,12 @@ export class VenuesService {
     const query = this.venueRepository.createQueryBuilder('venue');
 
     if (searchDto.keyword) {
-      query.andWhere('(venue.name ILIKE :keyword OR venue.address ILIKE :keyword)', {
-        keyword: `%${searchDto.keyword}%`,
-      });
+      query.andWhere(
+        '(venue.name ILIKE :keyword OR venue.address ILIKE :keyword)',
+        {
+          keyword: `%${searchDto.keyword}%`,
+        },
+      );
     }
 
     if (searchDto.lat && searchDto.long && searchDto.radiusKm) {
@@ -45,7 +52,8 @@ export class VenuesService {
       const maxDistanceKm = searchDto.radiusKm;
 
       // Haversine formula in raw SQL
-      query.andWhere(`
+      query.andWhere(
+        `
       (${earthRadiusKm} * acos(
         cos(radians(:lat)) *
         cos(radians(venue.latitude)) *
@@ -53,16 +61,20 @@ export class VenuesService {
         sin(radians(:lat)) *
         sin(radians(venue.latitude))
       )) <= :maxDistance
-    `, {
-        lat: searchDto.lat,
-        long: searchDto.long,
-        maxDistance: maxDistanceKm,
-      });
+    `,
+        {
+          lat: searchDto.lat,
+          long: searchDto.long,
+          maxDistance: maxDistanceKm,
+        },
+      );
     }
 
     // Optional: Order by distance if geolocation is used
     if (searchDto.lat && searchDto.long) {
-      query.orderBy(`
+      query
+        .orderBy(
+          `
       (6371 * acos(
         cos(radians(:lat)) *
         cos(radians(venue.latitude)) *
@@ -70,7 +82,9 @@ export class VenuesService {
         sin(radians(:lat)) *
         sin(radians(venue.latitude))
       ))
-    `, 'ASC')
+    `,
+          'ASC',
+        )
         .setParameter('lat', searchDto.lat)
         .setParameter('long', searchDto.long);
     }
@@ -102,7 +116,11 @@ export class VenuesService {
     if (!venue) throw new NotFoundException('Venue not found');
 
     // If user provided, check ownership for sensitive actions
-    if (user && venue.manager.id !== user.userId && user.role !== UserRole.AUTHORITY) {
+    if (
+      user &&
+      venue.manager.id !== user.userId &&
+      user.role !== UserRole.AUTHORITY
+    ) {
       throw new ForbiddenException('You can only view your own venues');
     }
 

@@ -1,5 +1,15 @@
 // src/users/users.controller.ts
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -7,22 +17,31 @@ import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 import { UserRole } from './entities/user.entity';
-import { ApiTags, ApiBearerAuth, ApiResponse, ApiOperation, ApiCreatedResponse, ApiForbiddenResponse } from '@nestjs/swagger';
-
+import {
+  ApiTags,
+  ApiBearerAuth,
+  ApiResponse,
+  ApiOperation,
+  ApiCreatedResponse,
+  ApiForbiddenResponse,
+} from '@nestjs/swagger';
 
 @ApiTags('Users Management')
 @ApiBearerAuth('JWT-auth')
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) { }
+  constructor(private readonly usersService: UsersService) {}
 
   // Public: Anyone can register as ORGANIZER
   @Post('register')
   @ApiOperation({
     summary: 'Public registration',
-    description: 'Anyone can register as an ORGANIZER. Self-registration for VENUE_MANAGER or AUTHORITY is blocked for security.',
+    description:
+      'Anyone can register as an ORGANIZER. Self-registration for VENUE_MANAGER or AUTHORITY is blocked for security.',
   })
-  @ApiCreatedResponse({ description: 'User successfully registered as ORGANIZER' })
+  @ApiCreatedResponse({
+    description: 'User successfully registered as ORGANIZER',
+  })
   @ApiResponse({ status: 409, description: 'Email or username already exists' })
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto, false);
@@ -32,10 +51,13 @@ export class UsersController {
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @ApiOperation({
     summary: 'Admin creates user (restricted)',
-    description: 'Only AUTHORITY can create VENUE_MANAGER or AUTHORITY accounts. Used for secure onboarding.',
+    description:
+      'Only AUTHORITY can create VENUE_MANAGER or AUTHORITY accounts. Used for secure onboarding.',
   })
   @ApiCreatedResponse({ description: 'User created (any role)' })
-  @ApiForbiddenResponse({ description: 'Only AUTHORITY can create restricted roles' })
+  @ApiForbiddenResponse({
+    description: 'Only AUTHORITY can create restricted roles',
+  })
   @Post('create')
   adminCreate(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto, true);
@@ -79,10 +101,13 @@ export class UsersController {
   @Roles(UserRole.AUTHORITY)
   @ApiOperation({
     summary: 'Admin updates user (restricted)',
-    description: 'Only AUTHORITY can update VENUE_MANAGER or AUTHORITY accounts. Used for secure onboarding.',
+    description:
+      'Only AUTHORITY can update VENUE_MANAGER or AUTHORITY accounts. Used for secure onboarding.',
   })
   @ApiCreatedResponse({ description: 'User updated (any role)' })
-  @ApiForbiddenResponse({ description: 'Only AUTHORITY can update restricted roles' })
+  @ApiForbiddenResponse({
+    description: 'Only AUTHORITY can update restricted roles',
+  })
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
@@ -93,14 +118,21 @@ export class UsersController {
   @Roles(UserRole.AUTHORITY)
   @ApiOperation({
     summary: 'Admin deletes user (restricted)',
-    description: 'Only AUTHORITY can delete VENUE_MANAGER or AUTHORITY accounts. Used for secure onboarding.',
+    description:
+      'Only AUTHORITY can delete VENUE_MANAGER or AUTHORITY accounts. Used for secure onboarding.',
   })
   @ApiCreatedResponse({ description: 'User delete (any role)' })
-  @ApiForbiddenResponse({ description: 'Only AUTHORITY can delete restricted roles' })
+  @ApiForbiddenResponse({
+    description: 'Only AUTHORITY can delete restricted roles',
+  })
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(id);
   }
 
-
+  @Get('me')
+  @UseGuards(AuthGuard('jwt'))
+  getProfile(@Request() req) {
+    return req.user; // From JWT payload
+  }
 }

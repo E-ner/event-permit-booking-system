@@ -3,14 +3,12 @@ import { UserRole } from '../entities/user.entity'; // Assume enum is there
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateUserDto {
-
   @ApiProperty({
     description: 'Unique username',
     example: 'johnorganizer',
   })
   @IsString()
   username: string;
-
 
   @ApiProperty({
     description: 'User email (must be unique)',
@@ -28,8 +26,7 @@ export class CreateUserDto {
   @MinLength(6)
   password: string;
 
-
-@ApiProperty({
+  @ApiProperty({
     description: 'User role - restricted on public registration',
     enum: UserRole,
     example: UserRole.ORGANIZER,

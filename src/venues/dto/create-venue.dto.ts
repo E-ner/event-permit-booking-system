@@ -2,8 +2,6 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsString, IsNumber, IsOptional, Min, Max } from 'class-validator';
 
 export class CreateVenueDto {
-
-
   @ApiProperty({
     description: 'Name of the venue',
     example: 'Kigali Convention Centre',
@@ -18,7 +16,6 @@ export class CreateVenueDto {
   @IsString()
   address: string;
 
-
   @ApiProperty({
     description: 'Latitude coordinate',
     type: Number,
@@ -31,19 +28,17 @@ export class CreateVenueDto {
   @Max(90)
   latitude: number;
 
-
   @ApiProperty({
     description: 'Longitude coordinate',
     type: Number,
     minimum: -180,
     maximum: 180,
-    example: 30.0930,
+    example: 30.093,
   })
   @IsNumber()
   @Min(-180)
   @Max(180)
   longitude: number;
-
 
   @ApiPropertyOptional({
     description: 'Description of facilities',
@@ -52,7 +47,6 @@ export class CreateVenueDto {
   @IsOptional()
   @IsString()
   description?: string;
-
 
   @ApiPropertyOptional({
     description: 'Maximum capacity',

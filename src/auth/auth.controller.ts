@@ -1,7 +1,13 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginUserDto } from '../users/dto/login-user.dto';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -9,9 +15,10 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-@ApiOperation({
+  @ApiOperation({
     summary: 'User login',
-    description: 'Authenticate with email and password to receive a JWT token. Token expires in 1 hour.',
+    description:
+      'Authenticate with email and password to receive a JWT token. Token expires in 1 hour.',
   })
   @ApiBody({
     type: LoginUserDto,
@@ -39,8 +46,8 @@ export class AuthController {
     schema: {
       example: {
         access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.xxxxx',
-        email: "john@email.com",
-        role: "AUTHORITY"
+        email: 'john@email.com',
+        role: 'AUTHORITY',
       },
     },
   })

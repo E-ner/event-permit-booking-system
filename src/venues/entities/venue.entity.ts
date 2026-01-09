@@ -1,6 +1,14 @@
-import { Booking } from "src/bookings/entities/booking.entity";
-import { User } from "src/users/entities/user.entity";
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn, OneToMany } from "typeorm";
+import { Booking } from 'src/bookings/entities/booking.entity';
+import { User } from 'src/users/entities/user.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+} from 'typeorm';
 
 @Entity('venues')
 export class Venue {
@@ -25,7 +33,7 @@ export class Venue {
   @Column({ nullable: true })
   capacity: number;
 
-  @ManyToOne(() => User, (user) => user.managedVenues) 
+  @ManyToOne(() => User, (user) => user.managedVenues)
   manager: User;
 
   @CreateDateColumn()
