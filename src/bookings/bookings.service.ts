@@ -88,7 +88,7 @@ export class BookingsService {
   async findAll(user: any) {
     if (user.role === UserRole.AUTHORITY) {
       return this.bookingRepository.find({
-        relations: ['venue', 'venue.manager', 'organizer'],
+        relations: ['venue', 'venue.manager', 'organizer' , 'permits'],
         order: { createdAt: 'DESC' },
       });
     }
@@ -96,7 +96,7 @@ export class BookingsService {
     if (user.role === UserRole.VENUE_MANAGER) {
       return this.bookingRepository.find({
         where: { venue: { manager: { id: user.userId } } },
-        relations: ['venue', 'organizer'],
+        relations: ['venue', 'organizer','permits'],
         order: { createdAt: 'DESC' },
       });
     }
@@ -104,7 +104,7 @@ export class BookingsService {
     // Organizer sees their own bookings
     return this.bookingRepository.find({
       where: { organizer: { id: user.userId } },
-      relations: ['venue'],
+      relations: ['venue','permits'],
       order: { createdAt: 'DESC' },
     });
   }
