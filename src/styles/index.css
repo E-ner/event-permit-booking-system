@@ -1,0 +1,8 @@
+@import './fonts.css';
+@import './tailwind.css';
+@import './theme.css';
+
+
+.hero-bg-image {
+    background-image: url('../assets/img2.jpg');
+}
